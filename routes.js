@@ -39,7 +39,7 @@ module.exports = function(app,io){
 		// number of people in this chat room
 
 		socket.on('load',function(data){
-			var room = findClientsSocket(io,data.id);
+			var room = findClientsSocket(io,data);
 			if(room.length === 0 ) {
 
 				socket.emit('peopleinchat', {number: 0});
