@@ -33,28 +33,27 @@ module.exports = function(app,io){
 	});
 
 	// Initialize a new socket.io application, named 'chat'
-	var chat = io.on('connection', function (socket) {
+	var chat = io.of('/socket').on('connection', function (socket) {
 
 		// When the client emits the 'load' event, reply with the 
 		// number of people in this chat room
 
 		socket.on('load',function(data){
 
-			var room = findClientsSocket(io,data);
-			if(room.length === 0 ) {
+			if(chat.clients(data).length === 0 ) {
 
 				socket.emit('peopleinchat', {number: 0});
 			}
-			else if(room.length === 1) {
+			else if(chat.clients(data).length === 1) {
 
 				socket.emit('peopleinchat', {
 					number: 1,
-					user: room[0].username,
-					avatar: room[0].avatar,
+					user: chat.clients(data)[0].username,
+					avatar: chat.clients(data)[0].avatar,
 					id: data
 				});
 			}
-			else if(room.length >= 2) {
+			else if(chat.clients(data).length >= 2) {
 
 				chat.emit('tooMany', {boolean: true});
 			}
@@ -64,9 +63,8 @@ module.exports = function(app,io){
 		// and add them to the room
 		socket.on('login', function(data) {
 
-			var room = findClientsSocket(io, data.id);
 			// Only two people per room are allowed
-			if (room.length < 2) {
+			if(chat.clients(data.id).length < 2){
 
 				// Use the socket object to store data. Each client gets
 				// their own unique socket object
@@ -82,16 +80,16 @@ module.exports = function(app,io){
 				// Add the client to the room
 				socket.join(data.id);
 
-				if (room.length == 1) {
+				if(chat.clients(data.id).length == 2) {
 
 					var usernames = [],
 						avatars = [];
 
-					usernames.push(room[0].username);
-					usernames.push(socket.username);
+					usernames.push(chat.clients(data.id)[0].username);
+					usernames.push(chat.clients(data.id)[1].username);
 
-					avatars.push(room[0].avatar);
-					avatars.push(socket.avatar);
+					avatars.push(chat.clients(data.id)[0].avatar);
+					avatars.push(chat.clients(data.id)[1].avatar);
 
 					// Send the startChat event to all the people in the
 					// room, along with a list of people that are in it.
@@ -103,6 +101,7 @@ module.exports = function(app,io){
 						avatars: avatars
 					});
 				}
+
 			}
 			else {
 				socket.emit('tooMany', {boolean: true});
@@ -135,25 +134,3 @@ module.exports = function(app,io){
 		});
 	});
 };
-
-function findClientsSocket(io,roomId, namespace) {
-	var res = [],
-		ns = io.of(namespace ||"/");    // the default namespace is "/"
-
-	if (ns) {
-		for (var id in ns.connected) {
-			if(roomId) {
-				var index = ns.connected[id].rooms.indexOf(roomId) ;
-				if(index !== -1) {
-					res.push(ns.connected[id]);
-				}
-			}
-			else {
-				res.push(ns.connected[id]);
-			}
-		}
-	}
-	return res;
-}
-
-

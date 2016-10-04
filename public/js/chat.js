@@ -6,8 +6,8 @@ $(function(){
 	var id = Number(window.location.pathname.match(/\/chat\/(\d+)$/)[1]);
 
 	// connect to the socket
-	var socket = io();
-	
+	var socket = io.connect('/socket');
+
 	// variables which hold the data for each person
 	var name = "",
 		email = "",
@@ -113,7 +113,8 @@ $(function(){
 				if(!isValid(email)){
 					alert("Wrong e-mail format!");
 				}
-				else {
+				else{
+
 					socket.emit('login', {user: name, avatar: email, id: id});
 				}
 
@@ -129,7 +130,6 @@ $(function(){
 	// Other useful 
 
 	socket.on('startChat', function(data){
-		console.log(data);
 		if(data.boolean && data.id == id) {
 
 			chats.empty();
@@ -167,12 +167,10 @@ $(function(){
 
 	socket.on('receive', function(data){
 
-		showMessage('chatStarted');
+			showMessage('chatStarted');
 
-		if(data.msg.trim().length) {
 			createChatMessage(data.msg, data.user, data.img, moment());
 			scrollToBottom();
-		}
 	});
 
 	textarea.keypress(function(e){
@@ -194,14 +192,12 @@ $(function(){
 
 		showMessage("chatStarted");
 
-		if(textarea.val().trim().length) {
-			createChatMessage(textarea.val(), name, img, moment());
-			scrollToBottom();
+		createChatMessage(textarea.val(), name, img, moment());
+		scrollToBottom();
 
-			// Send the message to the other person in the chat
-			socket.emit('msg', {msg: textarea.val(), user: name, img: img});
+		// Send the message to the other person in the chat
+		socket.emit('msg', {msg: textarea.val(), user: name, img: img});
 
-		}
 		// Empty the textarea
 		textarea.val("");
 	});
