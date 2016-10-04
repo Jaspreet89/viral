@@ -63,7 +63,7 @@ alert(data.number);
 			showMessage("connected");
 
 			loginForm.on('submit', function(e){
-
+alert("submit");
 				e.preventDefault();
 
 				name = $.trim(yourName.val());
