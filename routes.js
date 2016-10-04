@@ -39,8 +39,7 @@ module.exports = function(app,io){
 		// number of people in this chat room
 
 		socket.on('load',function(data){
-
-			var room = findClientsSocket(io,data);
+			var room = findClientsSocket(io,data.id);
 			if(room.length === 0 ) {
 
 				socket.emit('peopleinchat', {number: 0});
@@ -143,6 +142,7 @@ function findClientsSocket(io,roomId, namespace) {
 	if (ns) {
 		for (var id in ns.connected) {
 			if(roomId) {
+
 				var index = ns.connected[id].rooms.indexOf(roomId) ;
 				if(index !== -1) {
 					res.push(ns.connected[id]);
