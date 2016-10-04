@@ -57,8 +57,8 @@ $(function(){
 
 	// receive the names and avatars of all people in the chat room
 	socket.on('peopleinchat', function(data){
-alert(data.number);
-		if(data.number === 0){
+
+		if(data.number === 1){
 
 			showMessage("connected");
 
@@ -89,7 +89,7 @@ alert(data.number);
 			});
 		}
 
-		else if(data.number == 1) {
+		else if(data.number == 2) {
 
 			showMessage("personinchat",data);
 
@@ -114,7 +114,7 @@ alert(data.number);
 					alert("Wrong e-mail format!");
 				}
 				else {
-					alert("submit");
+
 					socket.emit('login', {user: name, avatar: email, id: id});
 				}
 
