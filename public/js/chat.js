@@ -57,7 +57,7 @@ $(function(){
 
 	// receive the names and avatars of all people in the chat room
 	socket.on('peopleinchat', function(data){
-
+alert(data.number);
 		if(data.number === 0){
 
 			showMessage("connected");
