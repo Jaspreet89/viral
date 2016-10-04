@@ -63,7 +63,7 @@ alert(data.number);
 			showMessage("connected");
 
 			loginForm.on('submit', function(e){
-alert("submit");
+
 				e.preventDefault();
 
 				name = $.trim(yourName.val());
@@ -114,6 +114,7 @@ alert("submit");
 					alert("Wrong e-mail format!");
 				}
 				else {
+					alert("submit");
 					socket.emit('login', {user: name, avatar: email, id: id});
 				}
 
