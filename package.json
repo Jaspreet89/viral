@@ -1,26 +1,35 @@
 {
-    "name": "appolo-chat-example",
-    "version": "0.1.1",
-    "private": true,
-    "scripts": {
-        "start": "node app"
-    },
-    "engines": {
-        "node": "0.10.x",
-        "npm": "1.4.x"
-    },
-    "dependencies": {
-        "lodash": "*",
-        "q": "*",
-        "redis": "*",
-        "mongoose": "*",
-        "socket.io":"*",
-        "appolo-express":"*",
-        "winston":"*",
-        "socket.io-redis":"*"
-
-    },
-    "devDependencies": {
-        "grunt": "*"
-    }
-} 
+  "name": "uw-chatrooms",
+  "version": "1.3.0",
+  "description": "UW Chatrooms",
+  "main": "server.js",
+  "directories": {
+    "example": "examples"
+  },
+  "dependencies": {
+    "jade": "~1.2.0",
+    "socket.io": "~0.9.16",
+    "express": "~3.4.8",
+    "node-sass": "0.8.5",
+    "uwcr-chatbot": "git+https://git@github.com/DavisWang/uwcr-chatbot.git"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/DavisWang/uw-chatrooms.git"
+  },
+  "keywords": [
+    "uw",
+    "chatrooms"
+  ],
+  "author": "Davis Wang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DavisWang/uw-chatrooms/issues"
+  },
+  "homepage": "https://github.com/DavisWang/uw-chatrooms"
+}
