@@ -20,7 +20,7 @@ module.exports = function(app,io){
 	app.get('/create', function(req,res){
 
 		// Generate unique id for the room
-		var id ='viral' ;//Math.round((Math.random() * 1000000));
+		var id ='1' ;//Math.round((Math.random() * 1000000));
 
 		// Redirect to the random room
 		res.redirect('/chat/'+id);
