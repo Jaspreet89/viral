@@ -10,6 +10,7 @@ var gravatar = require('gravatar');
 // the app and io instances from the app.js file:
 
 module.exports = function(app,io){
+/*
 
 	app.get('/', function(req, res){
 
@@ -25,6 +26,7 @@ module.exports = function(app,io){
 		// Redirect to the random room
 		res.redirect('/chat/'+id);
 	});
+*/
 
 	app.get('/chat/:id', function(req,res){
 

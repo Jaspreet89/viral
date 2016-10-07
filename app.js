@@ -6,7 +6,11 @@
 
 var express = require('express'),
 	app = express();
-
+app.use(function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	next();
+});
 // This is needed if the app is run on heroku:
 
 var port = process.env.PORT || 8080;
