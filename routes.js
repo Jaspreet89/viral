@@ -11,13 +11,7 @@ var gravatar = require('gravatar');
 
 module.exports = function(app,io){
 
-	app.get('/', function(req, res){
-
-		// Render views/home.html
-		res.render('home');
-	});
-
-	app.get('/create', function(req,res){
+	app.get('/', function(req,res){
 
 		// Generate unique id for the room
 		var id = Math.round((Math.random() * 1000000));

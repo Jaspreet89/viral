@@ -30,9 +30,9 @@ $(function(){
 		leftNickname = $(".nickname-left"),
 		loginForm = $(".loginForm"),
 		yourName = $("#yourName"),
-		yourEmail = $("#yourEmail"),
+		yourEmail = $("#yourImage"),
 		hisName = $("#hisName"),
-		hisEmail = $("#hisEmail"),
+		hisEmail = $("#hisImage"),
 		chatForm = $("#chatform"),
 		textarea = $("#message"),
 		messageTimeSent = $(".timesent"),
@@ -59,66 +59,18 @@ $(function(){
 	socket.on('peopleinchat', function(data){
 
 		if(data.number === 0){
-
-			showMessage("connected");
-
-			loginForm.on('submit', function(e){
-
-				e.preventDefault();
-
 				name = $.trim(yourName.val());
-				
-				if(name.length < 1){
-					alert("Please enter a nick name longer than 1 character!");
-					return;
-				}
-
 				email = yourEmail.val();
+				socket.emit('login', {user: name, avatar: email, id: id});
+			showMessage('waiting');
 
-				if(!isValid(email)) {
-					alert("Please enter a valid email!");
-				}
-				else {
-
-					showMessage("inviteSomebody");
-
-					// call the server-side function 'login' and send user's parameters
-					socket.emit('login', {user: name, avatar: email, id: id});
-				}
-			
-			});
 		}
 
 		else if(data.number === 1) {
-
-			showMessage("personinchat",data);
-
-			loginForm.on('submit', function(e){
-
-				e.preventDefault();
-
 				name = $.trim(hisName.val());
-
-				if(name.length < 1){
-					alert("Please enter a nick name longer than 1 character!");
-					return;
-				}
-
-				if(name == data.user){
-					alert("There already is a \"" + name + "\" in this room!");
-					return;
-				}
 				email = hisEmail.val();
+				socket.emit('login', {user: name, avatar: email, id: id});
 
-				if(!isValid(email)){
-					alert("Wrong e-mail format!");
-				}
-				else{
-
-					socket.emit('login', {user: name, avatar: email, id: id});
-				}
-
-			});
 		}
 
 		else {
@@ -264,11 +216,7 @@ $(function(){
 			onConnect.fadeIn(1200);
 		}
 
-		else if(status === "inviteSomebody"){
-
-			// Set the invite link content
-			$("#link").text(window.location.href);
-
+		else if(status === "waiting"){
 			onConnect.fadeOut(1200, function(){
 				inviteSomebody.fadeIn(1200);
 			});
