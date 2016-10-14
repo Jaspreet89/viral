@@ -6,8 +6,8 @@ $(function(){
 	var id = Number(window.location.pathname.match(/\/chat\/(\d+)$/)[1]);
 
 	// connect to the socket
-	var socket = io.connect('/socket');
-
+	var socket = io();
+	
 	// variables which hold the data for each person
 	var name = "",
 		email = "",
@@ -30,9 +30,9 @@ $(function(){
 		leftNickname = $(".nickname-left"),
 		loginForm = $(".loginForm"),
 		yourName = $("#yourName"),
-		yourEmail = $("#yourImage"),
+		yourEmail = $("#yourEmail"),
 		hisName = $("#hisName"),
-		hisEmail = $("#hisImage"),
+		hisEmail = $("#hisEmail"),
 		chatForm = $("#chatform"),
 		textarea = $("#message"),
 		messageTimeSent = $(".timesent"),
@@ -57,20 +57,23 @@ $(function(){
 
 	// receive the names and avatars of all people in the chat room
 	socket.on('peopleinchat', function(data){
-
 		if(data.number === 0){
-				name = $.trim(yourName.val());
-				email = yourEmail.val();
-				socket.emit('login', {user: name, avatar: email, id: id});
-			showMessage('waiting');
 
+			name = $.trim(yourName.val());
+			email = yourEmail.val();
+
+
+
+					// call the server-side function 'login' and send user's parameters
+					socket.emit('login', {user: name, avatar: email, id: id});
+			showMessage("inviteSomebody");
 		}
 
 		else if(data.number === 1) {
-				name = $.trim(hisName.val());
-				email = hisEmail.val();
-				socket.emit('login', {user: name, avatar: email, id: id});
 
+			name = $.trim(hisName.val());
+			email = hisEmail.val();
+			socket.emit('login', {user: name, avatar: email, id: id});
 		}
 
 		else {
@@ -82,6 +85,7 @@ $(function(){
 	// Other useful 
 
 	socket.on('startChat', function(data){
+		console.log(data);
 		if(data.boolean && data.id == id) {
 
 			chats.empty();
@@ -119,10 +123,12 @@ $(function(){
 
 	socket.on('receive', function(data){
 
-			showMessage('chatStarted');
+		showMessage('chatStarted');
 
+		if(data.msg.trim().length) {
 			createChatMessage(data.msg, data.user, data.img, moment());
 			scrollToBottom();
+		}
 	});
 
 	textarea.keypress(function(e){
@@ -144,12 +150,14 @@ $(function(){
 
 		showMessage("chatStarted");
 
-		createChatMessage(textarea.val(), name, img, moment());
-		scrollToBottom();
+		if(textarea.val().trim().length) {
+			createChatMessage(textarea.val(), name, img, moment());
+			scrollToBottom();
 
-		// Send the message to the other person in the chat
-		socket.emit('msg', {msg: textarea.val(), user: name, img: img});
+			// Send the message to the other person in the chat
+			socket.emit('msg', {msg: textarea.val(), user: name, img: img});
 
+		}
 		// Empty the textarea
 		textarea.val("");
 	});
@@ -216,7 +224,11 @@ $(function(){
 			onConnect.fadeIn(1200);
 		}
 
-		else if(status === "waiting"){
+		else if(status === "inviteSomebody"){
+
+			// Set the invite link content
+			$("#link").text(window.location.href);
+
 			onConnect.fadeOut(1200, function(){
 				inviteSomebody.fadeIn(1200);
 			});

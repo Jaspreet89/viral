@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 
 <!--
-	https://github.com/yosuke-furukawa/socket.io-video
+	This file is rendered by express.js, when the rurl /chat/123456 is visited in a browser.
+	It includes jQuery, socket.io.js (it is automatically served by the socket.io library), 
+	and a few more JavaScript files that you should check out.
 -->
 
 <html>
 
 <head>
 
-	<title>Viral</title>
+	<title>Viral Selfy Date</title>
 
 	<link type="text/css" rel="stylesheet" href="../css/stylesheet.css" />
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans Condensed:300italic,300,700" rel="stylesheet" type="text/css">
@@ -21,10 +23,7 @@
 	<header class="banner">
 
 		<h1 class="bannertext">
-
-			Viral<span>Chat</span>
-
-
+			<a href="http://tutorialzine.com/2014/03/nodejs-private-webchat/" id="logo">Viral<span> Selfy </span>Date</a>
 		</h1>
 
 	</header>
@@ -44,7 +43,7 @@
 
 				<form class="loginForm">
 					<input type="text" id="yourName" value="jas" /><br/>
-					<input type="text" id="yourImage" value="jas" /><br/>
+					<input type="text" id="yourEmail" value="jas" /><br/>
 				</form>
 
 			</div>
@@ -60,8 +59,8 @@
 				<br/>
 
 				<form class="loginForm">
-					<input type="text" id="hisName" value="jj" /><br/>
-					<input type="text" id="hisImage" value="jj" /><br/>
+					<input type="text" id="hisName" value="daniel" /><br/>
+					<input type="text" id="hisEmail" value="daniel" /><br/>
 				</form>
 
 			</div>
@@ -70,8 +69,8 @@
 
 		<div class="invite-textfield">
 
-			<h2>Waiting for other user!</h2>
-
+			<h2><span>Waiting!!</span></h2>
+			<h5 >Your <span>Viral Selfy Date</span> Partner Will Join You Soon !!</h5>
 
 		</div>
 
@@ -81,7 +80,6 @@
 
 			<div class="info">
 				<h2><span class="nickname-left"></span> has left this chat.</h2>
-				<h5>Invite somebody else by sending them this page.</h5>
 			</div>
 
 		</div>
@@ -89,7 +87,6 @@
 		<div class="toomanypeople">
 
 			<h2>Oops, you can not join this chat!</h2>
-
 
 		</div>
 
